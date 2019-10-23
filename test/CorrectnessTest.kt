@@ -46,19 +46,22 @@ class CorrectnessTest : TestBase(), Environment {
     @Test(timeout = 3000)
     fun testSpuriousWakeup() {
         val rs = start(2, Solution(this))
-        val (p, q) = rs
-        p.requestLock()
-        p.awaitCritical()
-        q.requestLock()
-        repeat(10) {
-            q.awaitParked()
-            q.unpark() // spurious wakeup
+        val rnd = Random(1)
+        repeat(100) {
+            val (p, q) = rs.shuffled(rnd)
+            p.requestLock()
+            p.awaitCritical()
+            q.requestLock()
+            repeat(10) {
+                q.awaitParked()
+                q.unpark() // spurious wakeup
+            }
+            p.requestUnlock()
+            p.awaitNormal()
+            q.awaitCritical()
+            q.requestUnlock()
+            q.awaitNormal()
         }
-        p.requestUnlock()
-        p.awaitNormal()
-        q.awaitCritical()
-        q.requestUnlock()
-        q.awaitNormal()
         stop(rs)
     }
 
@@ -86,8 +89,8 @@ class CorrectnessTest : TestBase(), Environment {
         fun awaitNormal() = awaitPhase(Phase.Normal)
 
         @Synchronized
-        fun awaitPhase(p: Phase) {
-            while (phase != p) (this as Object).wait()
+        fun awaitPhase(vararg ps: Phase) {
+            while (phase !in ps) (this as Object).wait()
         }
 
         @Synchronized
@@ -123,8 +126,8 @@ class CorrectnessTest : TestBase(), Environment {
         }
 
         fun unpark() {
-            awaitPhase(Phase.Parked)
-            transition(Phase.Parked, Phase.Unparked)
+            awaitPhase(Phase.Parked, Phase.Unparked)
+            transition(Phase.Parked, Phase.Unparked, Phase.Unparked)
         }
     }
 
