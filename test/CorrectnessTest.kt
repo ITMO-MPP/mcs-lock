@@ -56,6 +56,7 @@ class CorrectnessTest : TestBase(), Environment {
                 q.awaitParked()
                 q.unpark() // spurious wakeup
             }
+            q.awaitParked()
             p.requestUnlock()
             p.awaitNormal()
             q.awaitCritical()
