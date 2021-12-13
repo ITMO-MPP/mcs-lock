@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.plugin.*
 
 plugins {
-    kotlin("jvm") version "1.3.50"
+    kotlin("jvm") version "1.6.0"
     java
 }
 
@@ -9,7 +9,7 @@ group = "ru.ifmo.mpp"
 version = "1.0-SNAPSHOT"
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 dependencies {
