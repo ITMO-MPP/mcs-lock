@@ -1,11 +1,31 @@
-import org.jetbrains.kotlin.gradle.plugin.*
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.jetbrains.kotlinx:atomicfu-gradle-plugin:0.18.3")
+    }
+}
 
 plugins {
-    kotlin("jvm") version "1.6.0"
+    kotlin("jvm") version "1.9.10"
     java
 }
 
-group = "ru.ifmo.mpp"
+apply(plugin = "kotlinx-atomicfu")
+
+tasks {
+    test {
+        maxHeapSize = "4g"
+        jvmArgs(
+            "--add-opens", "java.base/jdk.internal.misc=ALL-UNNAMED",
+            "--add-exports", "java.base/jdk.internal.util=ALL-UNNAMED",
+            "--add-exports", "java.base/sun.security.action=ALL-UNNAMED"
+        )
+    }
+}
+
+group = "ru.itmo.mpp"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -17,16 +37,16 @@ dependencies {
     testImplementation(kotlin("test-junit"))
 }
 
-sourceSets {
-    main {
-        java.setSrcDirs(listOf("src"))
-        withConvention(KotlinSourceSet::class) {
-            kotlin.setSrcDirs(listOf("src"))
-        }
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
-    test {
-        withConvention(KotlinSourceSet::class) {
-            kotlin.setSrcDirs(listOf("test"))
-        }
-    }
+}
+
+sourceSets.main {
+    java.srcDir("src")
+}
+
+sourceSets.test {
+    java.srcDir("test")
 }

@@ -69,8 +69,8 @@ locked.value = true // выставить значение в коде
 Вспомогательные классы должны быть внутри вашего класса решения. 
 
 Для проверки вашего решения запустите из корня репозитория:
-* `./gradlew build` на Linux или MacOS
-* `gradlew build` на Windows
+* `./gradlew test` на Linux или MacOS
+* `gradlew test` на Windows
  
 Тесты:
 * [`СodeTest`](test/CodeTest.kt) проверяет выполнение ограничений описанных в условии. 
