@@ -1,6 +1,6 @@
 import java.util.concurrent.atomic.*
 
-class Solution(val env: Environment) : Lock<Solution.Node> {
+class SolutionTemplateKt(val env: Environment) : Lock<SolutionTemplateKt.Node> {
     // todo: необходимые поля (val, используем AtomicReference)
 
     override fun lock(): Node {

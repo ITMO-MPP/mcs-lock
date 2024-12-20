@@ -47,8 +47,11 @@ inline fun <N> Lock<N>.withLock(block: () -> Unit) {
 
 Ваше решение должно быть в файле `src/Solution.(kt|java)`. Основной класс должен называться `Solution`.
 Шаблоны решений вы найдете здесь: 
+
 * На языке Kotlin в файле [`src/SolutionTemplateKt.kt`](src/SolutionTemplateKt.kt) 
 * На языке Java в файле [`src/SolutionTemplateJava.java`](src/SolutionTemplateJava.java)
+
+**Переименуйте класс в Solution после копирования из SolutionTemplate.**
 
 Класс решения должен принимать в конструкторе параметр типа [`Environment`](src/Environment.kt) и должен взывать 
 методы `park` и `unpark` на экземпляре этого класса, чтобы тесты могли передать вашего алгоритму
